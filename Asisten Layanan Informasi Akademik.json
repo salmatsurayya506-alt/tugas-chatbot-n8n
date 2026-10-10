@@ -1,0 +1,118 @@
+{
+  "name": "Asisten Layanan Informasi Akademik",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c42b38ec-d5bd-47f2-865f-cd4684144ab3",
+      "name": "When chat message received",
+      "webhookId": "c51d5a70-8672-4151-a8ff-86b5f53b8211"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah asisten layanan informasi akademik yang ramah dan membantu. Tugasmu adalah menjawab pertanyaan seputar profil kampus, jadwal, dan pendaftaran kursus."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "d75b46c9-c166-47ef-9c25-ea4e4c261072",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.8-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        176
+      ],
+      "id": "108fcc3c-6af8-4701-8e96-a4f2c1eb2de3",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "GxIuqaIbBzPYWHBD",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        320,
+        176
+      ],
+      "id": "c7f4f658-d746-4415-9acc-a4445fa0718f",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "534870cd-fe29-439a-9c22-54d8d7726b1f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "246373b55d1f39b672df4225fb93d78f138d49a434860b06424ad0947226b656"
+  },
+  "nodeGroups": [],
+  "id": "fGH1Wdizs2IdV9zI",
+  "tags": []
+}
